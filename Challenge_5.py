@@ -3,7 +3,7 @@
 
 import requests
 import json
-
+from datetime import datetime, timedelta
 
 
 '''Post inital request '''
@@ -71,3 +71,30 @@ for text in jsonDic['array']:
 results = {'token': 'a7063e277631887fc81e0ed9a3a437f5', 'array': strArr}
 r7 = requests.post('http://challenge.code2040.org/api/prefix/validate', json=results)
 print r7.text
+
+########
+
+'''Dating Challenge Post'''
+
+r8 = requests.post('http://challenge.code2040.org/api/dating', temp)
+jsonDic = json.loads(r8.content)
+#print(jsonDic)
+
+initDate = jsonDic['datestamp']
+
+formatDate = datetime.strptime(initDate, '%Y-%m-%dT%H:%M:%SZ')
+#print(formatDate)
+
+timestamp = (formatDate - datetime(1970, 1, 1)).total_seconds()
+#print(timestamp)
+
+timestamp += jsonDic['interval']
+#print(timestamp)
+
+formatDate = datetime(1970, 1, 1) + timedelta(seconds=timestamp)
+ret = (formatDate.strftime('%Y-%m-%dT%H:%M:%SZ'))
+#print ret
+
+results = {'token': 'a7063e277631887fc81e0ed9a3a437f5', 'datestamp': ret}
+r9 = requests.post('http://challenge.code2040.org/api/dating/validate', json=results)
+print r9.text
