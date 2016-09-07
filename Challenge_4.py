@@ -63,5 +63,5 @@ for text in jsonDic['array']:
 print strArr
 
 results = {'token': 'a7063e277631887fc81e0ed9a3a437f5', 'array': strArr}
-r7 = requests.post('http://challenge.code2040.org/api/prefix/validate', params =results)
+r7 = requests.post('http://challenge.code2040.org/api/prefix/validate', json =results)
 print r7.text
